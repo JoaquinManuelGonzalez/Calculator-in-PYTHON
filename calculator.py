@@ -2,6 +2,16 @@ import PySimpleGUI as sg
 import string
 
 def create_window (theme):
+    """Summary: This function recieves a theme to use in the layout of the calculator
+       and creates the dinamic layout using the theme recieved in the argument.
+
+    [Args]:
+        theme (str): Theme is one of the themes that you can use in PySimpleGUI
+
+    [Return]: This function returns a calculator window with the especifict theme that
+              you selected.
+    """
+
     sg.theme(theme)
     sg.set_options(font = 'Calibri 20', button_element_size = (2, 1))
     button_size = (4, 1)
@@ -54,16 +64,14 @@ while True:
 
     if event in '=':
         operation.append(''.join(current_number))
-        if operation[-1] != '0':
+        try:
             current_number.append(str(eval(''.join(operation))))
             window['-OUTPUT-'].update(current_number[-1])
-            operation.clear()
-            operation.append(current_number[-1])
-            current_number.clear()
-        else:
-            window['-OUTPUT-'].update('Division por 0')
-            operation.clear()
-            current_number.clear()
+        except:
+            window['-OUTPUT-'].update('Incorrect')
+        operation.clear()
+        operation.append(current_number[-1])
+        current_number.clear()
 
     if event == '-CLEAR-':
         window['-OUTPUT-'].update('0')
